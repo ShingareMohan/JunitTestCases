@@ -3,7 +3,10 @@ package com.abc.springCrud341.Service;
 import com.abc.springCrud341.Dao.BookRepository;
 import com.abc.springCrud341.Entity.Book;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -32,7 +35,7 @@ public class BookService {
 
         return book;
     }
-
+     @Transactional
     public Book addBook(Book b) {
         Book result = bookRepository.save(b);
         return result;
@@ -52,6 +55,12 @@ public class BookService {
 
     public void deleteById(int i) {
     }
+
+    public Page<Book> getBookWithPagination(int offset, int pageSize){
+        return bookRepository.findAll(PageRequest.of(offset,pageSize));
+    }
+
+
 
 
 //    public void update(Book book, int id){

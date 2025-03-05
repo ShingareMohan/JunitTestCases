@@ -4,7 +4,9 @@ import com.abc.springCrud341.Entity.Book;
 import com.abc.springCrud341.Exception1.ResourceNoFoundException;
 import com.abc.springCrud341.Service.BookService;
 import com.abc.springCrud341.Entity.ErrorResponse;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
@@ -37,10 +39,9 @@ public class BookController {
     }
 
     @PostMapping("/books")
-    public Book addbook(@RequestBody Book book){
-
-      Book c= bookService.addBook(book);
-        return c;
+    public Book addBook(@RequestBody Book book){
+        Book b = this.bookService.addBook(book);
+        return b;
     }
     @PutMapping("/books/{id}")
     public Book update(@RequestBody Book book, @PathVariable("id") int id ){
@@ -65,6 +66,10 @@ public class BookController {
 //            e.printStackTrace();
 //            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 //        }
+    @GetMapping("/pagination/{offset}/{pageSize}")
+    public Page<Book> SortProduct(@PathVariable int offset,@PathVariable int pageSize){
+        return bookService.getBookWithPagination(offset, pageSize);
+    }
 
 
 }
